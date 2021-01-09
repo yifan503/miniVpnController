@@ -1,0 +1,9 @@
+<h1>new vpn</h1>
+<p>
+    <%= form_for( @vpn , remote: true) do |f| %>
+    vpn name:<%= f.text_field :name %>
+    ip address:<%= f.text_field :ipaddress %>
+    back up ip address:<%= f.text_field :ipaddress_bk %>
+    <%= submit_tag "add this vpn",class:"submit"%>
+    <% end %>
+</p>
