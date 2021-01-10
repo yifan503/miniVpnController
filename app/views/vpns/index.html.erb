@@ -3,3 +3,26 @@
 <% end %>
 <h1>vpn_index_page</h1>
 <%= link_to  "new vpn", new_vpn_path %>
+<p>
+    <table>
+        <tr>
+            <th>vpn name</th>
+            <th>ip</th>
+            <th>bkip</th>
+        </tr>
+        <% @vpns.each do |vpn|%>
+            <tr>
+                <td><%= vpn.name %></td>
+                <td><%= vpn.ipaddress %></td>
+                <td><%= vpn.ipaddress_bk %></td>
+                <td><%= link_to  "connnect", vpns_path %></td>
+                <td><%= link_to  "edit", edit_vpn_path(vpn) %></td>
+                <td><%= link_to  "delete", vpn_path(vpn),method: :delete,data:{confirm:'Are you sure?'} %></td>
+            </tr>
+        <%end%>
+    </table>
+</p>
+<p>
+    <h2>pppd status</h2>
+    <%= @pppd_status %>
+</p>

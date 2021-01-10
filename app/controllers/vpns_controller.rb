@@ -1,12 +1,18 @@
+require 'open3'
+
 class VpnsController < ApplicationController
     def index
+        @vpns = Vpn.all
+        stdout, stderr, status = Open3.capture3("ps -ef|grep pppd")
+        @pppd_status = stdout
     end
 
     def new
+        @vpn = Vpn.new
     end
 
     def create
-        @vpn=Vpn.new({name:params[:name],ipaddress:params[:ipaddress],ipaddress_bk:params[:ipaddress_bk]})
+        @vpn=get_vpn()
         if @vpn.save
             flash[:notice] = "vpn saved successfully"
         else
@@ -17,5 +23,39 @@ class VpnsController < ApplicationController
 
     def show
         
+    end
+    
+    def edit
+        @vpn = get_vpn()
+    end
+
+    def update
+        @vpn = get_vpn()
+        if @vpn.update(vpn_params)
+            flash[:notice] = "vpn updated successfully"
+            redirect_to action:'index'
+        else
+            flash.now[:notice] = "vpn updated successfully"
+            render 'edit'
+        end
+    end
+    
+    def destroy
+        @vpn = get_vpn()
+        if @vpn.destroy
+            flash[:notice] = "vpn deleted successfully"
+        else
+            flash[:notice] = "vpn has not deleted correctly"
+        end
+        redirect_to action:'index'
+    end
+
+    private
+    def vpn_params
+        params.require(:vpn).permit(:name,:ipaddress,:ipaddress_bk)
+    end
+
+    def get_vpn
+        @vpn = Vpn.find(params[:id])
     end
 end

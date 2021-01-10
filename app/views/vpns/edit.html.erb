@@ -1,0 +1,14 @@
+<% if flash[:notice]%>
+    <%= flash[:notice]%>
+<% end %>
+<h1>Edit vpn details</h1>
+<p>
+    <%= form_for( @vpn , remote: true) do |f| %>
+    vpn name:<%= f.text_field :name %>
+    ip address:<%= f.text_field :ipaddress %>
+    back up ip address:<%= f.text_field :ipaddress_bk %>
+    <%= submit_tag "update this vpn",class:"submit"%>
+    <% end %>
+</p>
+
+<%= link_to  "back", vpns_path %>
