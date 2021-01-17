@@ -4,6 +4,8 @@
 <h1>vpn_index_page</h1>
 <%= link_to  "new vpn", new_vpn_path %>
 <p>
+    <button type="button"  onclick=close_fire_wall()>close fire wall</button>
+    <button type="button"  onclick=disconnect_all()>disconnect all</button>
     <table>
         <tr>
             <th>vpn name</th>
@@ -15,7 +17,7 @@
                 <td><%= vpn.name %></td>
                 <td><%= vpn.ipaddress %></td>
                 <td><%= vpn.ipaddress_bk %></td>
-                <td><%= link_to  "connnect", vpns_path %></td>
+                <td><button type="button" onclick=connect()>connect</button></td>
                 <td><%= link_to  "edit", edit_vpn_path(vpn) %></td>
                 <td><%= link_to  "delete", vpn_path(vpn),method: :delete,data:{confirm:'Are you sure?'} %></td>
             </tr>
@@ -26,3 +28,22 @@
     <h2>pppd status</h2>
     <%= @pppd_status %>
 </p>
+
+<script>
+    function connect() {
+        
+    }
+    function close_fire_wall() {
+        
+    }
+    function disconnect_all() {
+        var httpRequest = new XMLHttpRequest();
+        httpRequest.open("GET","http://127.0.0.1:3000/disconnect",true);
+        httpRequest.send();
+        httpRequest.onreadystatechange=function() {
+            if(httpRequest.readyState == 4 && httpRequest.status == 200){
+                alert("disconnected");
+            }
+        }
+    }
+</script>

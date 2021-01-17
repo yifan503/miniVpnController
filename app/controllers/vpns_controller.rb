@@ -20,7 +20,11 @@ class VpnsController < ApplicationController
         end
         redirect_to action: 'index'
     end
-
+    
+    def disconnect_all
+        render :json=>{}
+    end
+    
     def show
         
     end
