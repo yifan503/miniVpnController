@@ -28,6 +28,13 @@ class VpnsController < ApplicationController
     def show
         
     end
+
+    def connect
+        @vpn = Vpn.find_by(name: params["vpn_name"])
+        logger.info(params["vpn_name"])
+        logger.info(@vpn)
+        render :json=>{}
+    end
     
     def edit
         @vpn = get_vpn()

@@ -17,7 +17,7 @@
                 <td><%= vpn.name %></td>
                 <td><%= vpn.ipaddress %></td>
                 <td><%= vpn.ipaddress_bk %></td>
-                <td><button type="button" onclick=connect()>connect</button></td>
+                <td><button id="<%=vpn.name%>" type="button" onclick=connect(this)>connect</button></td>
                 <td><%= link_to  "edit", edit_vpn_path(vpn) %></td>
                 <td><%= link_to  "delete", vpn_path(vpn),method: :delete,data:{confirm:'Are you sure?'} %></td>
             </tr>
@@ -30,18 +30,28 @@
 </p>
 
 <script>
-    function connect() {
-        
+    function connect(vpn) {
+        var request = new XMLHttpRequest();
+        request.open("GET","http://127.0.0.1:3000/connect?vpn_name="+vpn.id,true);
+        request.send();
+        request.onload = function(e) {
+            if(request.readyState == 4 && request.status == 200){
+                alert("connected");
+            }
+            else{
+                alert("connect failed")
+            }
+        }
     }
     function close_fire_wall() {
         
     }
     function disconnect_all() {
-        var httpRequest = new XMLHttpRequest();
-        httpRequest.open("GET","http://127.0.0.1:3000/disconnect",true);
-        httpRequest.send();
-        httpRequest.onreadystatechange=function() {
-            if(httpRequest.readyState == 4 && httpRequest.status == 200){
+        var request = new XMLHttpRequest();
+        request.open("GET","http://127.0.0.1:3000/disconnect",true);
+        request.send();
+        request.onreadystatechange=function() {
+            if(request.readyState == 4 && request.status == 200){
                 alert("disconnected");
             }
         }
